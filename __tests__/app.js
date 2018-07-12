@@ -7,10 +7,14 @@ describe('generator-xs-spa:app', () => {
   beforeAll(() => {
     return helpers
       .run(path.join(__dirname, '../generators/app'))
-      .withPrompts({ someAnswer: true });
+      .withPrompts({ name: 'name', description: 'description' });
   });
 
   it('creates files', () => {
     assert.file(['main.js', 'config.json', 'index.html', 'pages/home.html']);
+  });
+  it('check props', () => {
+    assert.fileContent('index.html', /<title>name<\/title>/);
+    assert.fileContent('index.html', /<meta name="description" content="description">/);
   });
 });
