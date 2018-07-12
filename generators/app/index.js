@@ -7,13 +7,22 @@ module.exports = class extends Generator {
   prompting() {
     // Have Yeoman greet the user.
     this.log(yosay(`Welcome to the neat ${chalk.red('xs-spa')} generator!`));
+    this.log(chalk.yellow('Make sure you are at the project folder'));
+
+    this.appname = this.appname.replace(/\s+/g, '-');
 
     const prompts = [
       {
-        type: 'confirm',
-        name: 'someAnswer',
-        message: 'Would you like to enable this option?',
-        default: true
+        type: 'input',
+        name: 'name',
+        message: 'Project name:',
+        default: this.appname
+      },
+      {
+        type: 'input',
+        name: 'description',
+        message: 'Description:',
+        default: 'Awesome description'
       }
     ];
 
@@ -24,10 +33,8 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copy(this.templatePath('.'), this.destinationPath('.'));
+    this.fs.copyTpl(this.templatePath('.'), this.destinationPath('.'), this.props);
   }
 
-  install() {
-    this.installDependencies();
-  }
+  install() {}
 };
