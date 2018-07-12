@@ -4,14 +4,18 @@ const config = JSON.parse($.ajax({
   async: false
 }).responseText);
 
-function setPage(page) {
+const goTo = function(page) {
+  window.location = '#' + page;
+};
+
+const setPage = function(page) {
   page = page.replace('#', '').replace(/\/\w+/g, '');
   $.get('pages/' + page + '.html', function(html) {
     $('#root').html(html);
   });
-}
+};
 
-function setRoute() {
+const setRoute = function() {
   if (location.hash === '') {
     if (config.root === '')
       $('#root').html('');
@@ -21,7 +25,8 @@ function setRoute() {
   } else {
     setPage(location.hash);
   }
-}
+};
+
 $(document).ready(function() {
   setRoute();
   window.onhashchange = setRoute;
